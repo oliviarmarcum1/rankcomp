@@ -15,3 +15,5 @@ Imports: stats, utils
 Suggests: testthat (>= 3.2.0), knitr, rmarkdown, ggplot2
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://github.com/oliviarmarcum1/rankcomp
+BugReports: https://github.com/oliviarmarcum1/rankcomp/issues
