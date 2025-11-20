@@ -2,3 +2,4 @@
 
 export(np_effect_size)
 export(pairwise_rank_sum)
+export(sdcf_test)
