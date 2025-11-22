@@ -12,7 +12,11 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: stats, utils
-Suggests: testthat (>= 3.2.0), knitr, rmarkdown, ggplot2
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    ggplot2
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 URL: https://github.com/oliviarmarcum1/rankcomp
