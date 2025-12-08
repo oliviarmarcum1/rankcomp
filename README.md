@@ -1,7 +1,7 @@
 README
 ================
 
-## What this package is for (
+## What this package is for 
 
 `rankcomp` compares groups using rank-based methods when data may be
 skewed, have outliers, or unequal variances. It provides all-pairs rank
