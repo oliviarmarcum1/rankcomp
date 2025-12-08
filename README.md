@@ -1,0 +1,17 @@
+README
+================
+
+## What this package is for 
+
+`rankcomp` compares groups using rank-based methods when data may be
+skewed, have outliers, or unequal variances. It provides all-pairs rank
+tests (Steel–Dwass–Critchlow–Fligner), clear effect sizes (probability
+of superiority), and simple checks so users can decide whether two
+groups are not just different but close enough to count as the same in
+practice via equivalence/non-inferiority. Outputs are tidy tables for
+easy reporting.
+
+## Installation
+
+\`\`\`r \# install.packages(“remotes”)
+remotes::install_github(“oliviarmarcum1/rankcomp”)

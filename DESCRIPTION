@@ -6,8 +6,7 @@ Authors@R:
 Description: Tools for all-pairs rank-based comparisons (Steel–Dwass–Critchlow–Fligner),
     nonparametric effect sizes (probability of superiority/AUC and Cliff's delta),
     and equivalence/non-inferiority on probabilistic indices, with tidy outputs.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
