@@ -1,0 +1,11 @@
+test_that("np_effect_size ranges and shape", {
+  set.seed(1)
+  x <- c(rnorm(10,0), rnorm(12,0.6), rnorm(9,0))
+  g <- factor(rep(c("A","B","C"), c(10,12,9)))
+  resA <- np_effect_size(x, g, "auc", ci = TRUE, nboot = 200, seed = 1)
+  resC <- np_effect_size(x, g, "cliff", ci = TRUE, nboot = 200, seed = 1)
+  expect_equal(nrow(resA), choose(nlevels(g),2))
+  expect_true(all(resA$effect >= 0 & resA$effect <= 1))
+  expect_true(all(resC$effect >= -1 & resC$effect <= 1))
+  expect_true(all(resA$ci_low <= resA$ci_high))
+})
