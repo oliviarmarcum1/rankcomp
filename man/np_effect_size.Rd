@@ -2,13 +2,13 @@
 % Please edit documentation in R/np_effect_size.R
 \name{np_effect_size}
 \alias{np_effect_size}
-\title{Nonparametric effect sizes for all pairs (AUC or Cliff's delta)}
+\title{Nonparametric effect sizes for all group pairs (AUC / Cliff's delta)}
 \usage{
 np_effect_size(
   x,
   g,
   measure = c("auc", "cliff"),
-  ci = FALSE,
+  ci = TRUE,
   level = 0.95,
   nboot = 2000,
   seed = NULL
@@ -17,17 +17,43 @@ np_effect_size(
 \arguments{
 \item{x}{Numeric vector of observations.}
 
-\item{g}{Factor/character vector of group labels (same length as x).}
+\item{g}{Factor/character group labels (same length as \code{x}).}
 
-\item{measure}{"auc" (probability of superiority) or "cliff"}
+\item{measure}{One of \code{"auc"} or \code{"cliff"}.}
 
-\item{ci}{Logical; placeholder (CIs added later).}
+\item{ci}{Logical; if \code{TRUE}, return bootstrap percentile confidence intervals.}
 
-\item{seed}{Optional seed (placeholder for permutation mode).}
+\item{level}{Confidence level for CIs (default \code{0.95}).}
+
+\item{nboot}{Number of bootstrap resamples used when \code{ci = TRUE}.}
+
+\item{seed}{Optional integer seed for reproducibility of the bootstrap.}
 }
 \value{
-data.frame with: group1, group2, measure, effect
+A data.frame with columns:
+\describe{
+\item{group1, group2}{Pair of groups compared}
+\item{measure}{\code{"auc"} or \code{"cliff"}}
+\item{effect}{Estimated effect}
+\item{ci_low, ci_high}{Bootstrap CI bounds if \code{ci=TRUE}, otherwise \code{NA}}
+}
 }
 \description{
-Nonparametric effect sizes for all pairs (AUC or Cliff's delta)
+Computes pairwise nonparametric effect sizes between groups:
+\itemize{
+\item \strong{AUC} (a.k.a. probability of superiority): \eqn{P(X>Y) + 0.5 P(X=Y)}
+\item \strong{Cliff's delta}: \eqn{(wins - losses)/(n_1 n_2)} in \eqn{[-1, 1]}
+}
+}
+\details{
+The bootstrap uses simple percentile intervals. Examples are kept
+small so they run quickly.
+}
+\examples{
+set.seed(1)
+x <- c(rnorm(10, 0), rnorm(12, 0.6), rnorm(9, 0))
+g <- factor(rep(c("A","B","C"), c(10,12,9)))
+np_effect_size(x, g, measure = "auc", ci = FALSE)
+np_effect_size(x, g, measure = "cliff", ci = TRUE, nboot = 200, seed = 1)
+
 }
