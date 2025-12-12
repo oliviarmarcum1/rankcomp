@@ -18,6 +18,8 @@ equivalence_np(
 \arguments{
 \item{x}{Numeric vector; @param g group labels (same length as x).}
 
+\item{g}{Factor/character group labels (same length as x).}
+
 \item{delta}{Non-negative margin.}
 
 \item{measure}{"auc" or "cliff".}
@@ -25,6 +27,10 @@ equivalence_np(
 \item{alternative}{"equivalence","noninferiority","noninferiority_rev".}
 
 \item{level}{CI level; @param nboot bootstrap reps; @param seed optional seed.}
+
+\item{nboot}{Integer number of bootstrap resamples for the CI.}
+
+\item{seed}{Optional integer seed for reproducibility.}
 }
 \value{
 data.frame with: group1, group2, measure, effect, ci_low, ci_high,

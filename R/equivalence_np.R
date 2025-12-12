@@ -2,7 +2,9 @@
 #'
 #' Uses bootstrap CIs for AUC or Cliff's delta to decide equivalence / non-inferiority
 #' for all group pairs. "No-difference" center: 0.5 (AUC) or 0 (Cliff).
-#'
+#' @param g Factor/character group labels (same length as x).
+#' @param nboot Integer number of bootstrap resamples for the CI.
+#' @param seed Optional integer seed for reproducibility.
 #' @param x Numeric vector; @param g group labels (same length as x).
 #' @param delta Non-negative margin.
 #' @param measure "auc" or "cliff".
