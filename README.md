@@ -13,13 +13,14 @@ easy reporting.
 
 ## Installation
 
-\`\`\`r \# install.packages(“remotes”)
+```r 
+# install.packages(“remotes”)
 
 remotes::install_github(“oliviarmarcum1/rankcomp”)
-
+```
 
 ## Minimal example
-\`\`\`r
+```r
 library(rankcomp)
 
 set.seed(1)
@@ -34,3 +35,4 @@ np_effect_size(x, g, measure = "auc", ci = TRUE, nboot = 200, seed = 1)
 
 equivalence_np(x, g, delta = 0.05, measure = "auc",
                alternative = "equivalence", nboot = 200, seed = 1)
+```
