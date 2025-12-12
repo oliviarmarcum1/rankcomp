@@ -1,0 +1,10 @@
+test_that("sdcf_test returns all-pairs with adjusted p-values", {
+  set.seed(1)
+  x <- c(rnorm(8,0), rnorm(10,0.6), rnorm(9,0))
+  g <- factor(rep(c("A","B","C"), c(8,10,9)))
+  res <- sdcf_test(x, g, adjust = "holm")
+  expect_equal(nrow(res), choose(nlevels(g), 2))
+  expect_true(all(c("group1","group2","n1","n2","p_adj","method_label") %in% names(res)))
+  expect_true(all(res$p_adj >= 0 & res$p_adj <= 1, na.rm = TRUE))
+  expect_true(all(res$method_label == "wilcoxon+FWER (SDCF-approx)"))
+})
