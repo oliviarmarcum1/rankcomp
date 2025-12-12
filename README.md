@@ -13,20 +13,9 @@ easy reporting.
 
 ## Installation
 
-<<<<<<< HEAD
 ``` r
 # install.packages("remotes")
 remotes::install_github("oliviarmarcum1/rankcomp")
-```
-
-## Minimal example
-
-``` r
-=======
-```r 
-# install.packages(“remotes”)
-
-remotes::install_github(“oliviarmarcum1/rankcomp”)
 ```
 
 ## Minimal example
