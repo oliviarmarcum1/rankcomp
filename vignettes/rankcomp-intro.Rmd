@@ -1,0 +1,35 @@
+---
+title: "rankcomp: rank-based comparisons, effects, and equivalence"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rankcomp: quick start}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## Why ranks?
+When groups are skewed or have outliers/unequal variances, rank-based tests are robust because they use order, not raw scale.
+
+```r
+set.seed(1)
+library(rankcomp)
+
+# toy data (fast)
+A <- rnorm(15, 0.3, 1)
+B <- rnorm(16, 0.0, 1)
+C <- rnorm(14, 0.3, 1)
+x <- c(A,B,C)
+g <- factor(rep(c("A","B","C"), c(length(A),length(B),length(C))))
+
+## 1) All-pairs (Wilcoxon + adjusted p-values)
+pairs_tab <- pairwise_rank_sum(x, g, method = "holm")
+pairs_tab
+
+## 2) Interpretable effects (AUC)
+eff_tab <- np_effect_size(x, g, measure = "auc", ci = TRUE, nboot = 200, seed = 1)
+eff_tab
+
+## 3) "Close enough?" via equivalence on AUC
+eq_tab <- equivalence_np(x, g, delta = 0.05, measure = "auc",
+                         alternative = "equivalence", nboot = 200, seed = 1)
+eq_tab
