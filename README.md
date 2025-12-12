@@ -20,7 +20,6 @@ remotes::install_github("oliviarmarcum1/rankcomp")
 
 ## Minimal example
 ```r
->>>>>>> 0963f87da8115c71a15727e2687ee7d287ec5521
 library(rankcomp)
 set.seed(1)
 x <- c(rnorm(10,0), rnorm(12,0.6), rnorm(9,0))
