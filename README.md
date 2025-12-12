@@ -1,7 +1,7 @@
 README
 ================
 
-## What this package is for 
+## What this package is for
 
 `rankcomp` compares groups using rank-based methods when data may be
 skewed, have outliers, or unequal variances. It provides all-pairs rank
@@ -13,24 +13,21 @@ easy reporting.
 
 ## Installation
 
-\`\`\`r \# install.packages(“remotes”)
-
-remotes::install_github(“oliviarmarcum1/rankcomp”)
-
+``` r
+# install.packages("remotes")
+remotes::install_github("oliviarmarcum1/rankcomp")
+```
 
 ## Minimal example
-\`\`\`r
+
+``` r
 library(rankcomp)
-
 set.seed(1)
-
 x <- c(rnorm(10,0), rnorm(12,0.6), rnorm(9,0))
-
 g <- factor(rep(c("A","B","C"), c(10,12,9)))
 
 pairwise_rank_sum(x, g)
-
 np_effect_size(x, g, measure = "auc", ci = TRUE, nboot = 200, seed = 1)
-
 equivalence_np(x, g, delta = 0.05, measure = "auc",
                alternative = "equivalence", nboot = 200, seed = 1)
+```
