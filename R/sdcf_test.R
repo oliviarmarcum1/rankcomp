@@ -1,12 +1,17 @@
 #' SDCF-style all-pairs comparison (Wilcoxon + multiplicity control surrogate)
 #'
 #' @description
-#' This function provides for the Steel–Dwass–Critchlow–Fligner
+#' This function provides a working approximation for the Steel–Dwass–Critchlow–Fligner
 #' (SDCF) all-pairs procedure by running Wilcoxon/Mann–Whitney tests for every pair
 #' of groups and applying a p-value adjustment (Holm by default) to control the familywise
 #' error rate.
 #'
-#' A full SDCF implementationis planned for a future version.
+#' A full SDCF implementation is planned for a future version.
+#'
+#'#' @details
+#' `sdcf_test()` currently provides an SDCF-style working approximation using Wilcoxon all-pairs
+#' with familywise error control; formal SDCF variance/tie corrections are scheduled for v0.2.
+#'
 #'
 #' @inheritParams pairwise_rank_sum
 #' @param adjust P-value adjustment method (e.g., "holm", "hochberg", "bonferroni", "BH").
