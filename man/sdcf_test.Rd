@@ -2,14 +2,14 @@
 % Please edit documentation in R/sdcf_test.R
 \name{sdcf_test}
 \alias{sdcf_test}
-\title{Steel–Dwass–Critchlow–Fligner all-pairs test (stub)}
+\title{SDCF-style all-pairs comparison (Wilcoxon + multiplicity control working approximation)}
 \usage{
 sdcf_test(
   x,
   g,
+  adjust = "holm",
   type = c("dwass", "critchlow-fligner"),
-  exact = NULL,
-  nperm = 10000
+  exact = NULL
 )
 }
 \arguments{
@@ -17,15 +17,35 @@ sdcf_test(
 
 \item{g}{Factor/character vector of group labels (same length as x).}
 
-\item{type}{"dwass" or "critchlow-fligner"}
+\item{adjust}{P-value adjustment method (e.g., "holm", "hochberg", "bonferroni", "BH").
+Default is "holm".}
+
+\item{type}{One of
+\code{"dwass"} or \code{"critchlow-fligner"}.}
 
 \item{exact}{Logical or NULL. If TRUE, request exact p-values when feasible.}
-
-\item{nperm}{Ignored in this minimal version (placeholder).}
 }
 \value{
-data.frame (to be implemented)
+A data.frame with columns:
+\code{group1, group2, n1, n2, stat, p, p_adj, mode, notes, method_label}
+where \code{method_label} is \code{"wilcoxon+FWER (SDCF-approx)"}.
 }
 \description{
-Steel–Dwass–Critchlow–Fligner all-pairs test (stub)
+This function provides a working approximation for the Steel–Dwass–Critchlow–Fligner
+(SDCF) all-pairs procedure by running Wilcoxon/Mann–Whitney tests for every pair
+of groups and applying a p-value adjustment (Holm by default) to control the familywise
+error rate.
+
+A full SDCF implementation is planned for a future version.
+
+#' @details
+\code{sdcf_test()} currently provides an SDCF-style working approximation using Wilcoxon all-pairs
+with familywise error control; formal SDCF variance/tie corrections are scheduled for v0.2.
+}
+\examples{
+set.seed(1)
+x <- c(rnorm(10,0), rnorm(12,0.6), rnorm(9,0))
+g <- factor(rep(c("A","B","C"), c(10,12,9)))
+sdcf_test(x, g)
+
 }
