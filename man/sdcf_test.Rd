@@ -2,7 +2,7 @@
 % Please edit documentation in R/sdcf_test.R
 \name{sdcf_test}
 \alias{sdcf_test}
-\title{SDCF-style all-pairs comparison (Wilcoxon + multiplicity control surrogate)}
+\title{SDCF-style all-pairs comparison (Wilcoxon + multiplicity control working approximation)}
 \usage{
 sdcf_test(
   x,

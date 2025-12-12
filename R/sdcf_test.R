@@ -1,4 +1,4 @@
-#' SDCF-style all-pairs comparison (Wilcoxon + multiplicity control surrogate)
+#' SDCF-style all-pairs comparison (Wilcoxon + multiplicity control working approximation)
 #'
 #' @description
 #' This function provides a working approximation for the Steel–Dwass–Critchlow–Fligner
