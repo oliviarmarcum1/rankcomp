@@ -19,7 +19,8 @@ remotes::install_github("oliviarmarcum1/rankcomp")
 ```
 
 ## Minimal example
-```r
+
+``` r
 library(rankcomp)
 set.seed(1)
 x <- c(rnorm(10,0), rnorm(12,0.6), rnorm(9,0))
@@ -29,4 +30,13 @@ pairwise_rank_sum(x, g)
 np_effect_size(x, g, measure = "auc", ci = TRUE, nboot = 200, seed = 1)
 equivalence_np(x, g, delta = 0.05, measure = "auc",
                alternative = "equivalence", nboot = 200, seed = 1)
+```
+
+## Documentation
+
+- Vignette: **Getting started with rankcomp** — see the *Vignettes* tab
+  on the GitHub package page, or open in R via:
+
+``` r
+vignette("rankcomp-intro", package = "rankcomp")
 ```
