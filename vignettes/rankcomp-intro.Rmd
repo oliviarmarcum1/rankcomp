@@ -1,5 +1,5 @@
 ---
-title: "rankcomp: rank-based comparisons, effects, and equivalence"
+title: "rankcomp: rank-based comparisons, effect sizes, and equivalence"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{rankcomp: quick start}
@@ -7,29 +7,112 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-## Why ranks?
-When groups are skewed or have outliers/unequal variances, rank-based tests are robust because they use order, not raw scale.
-
-```r
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  fig.width = 6, fig.height = 4, dpi = 150
+)
 set.seed(1)
-library(rankcomp)
+```
 
-# toy data (fast)
-A <- rnorm(15, 0.3, 1)
-B <- rnorm(16, 0.0, 1)
-C <- rnorm(14, 0.3, 1)
+## Why ranks?
+
+When groups are skewed or contain outliers / unequal variances, traditional t-tests/ANOVA can mislead. Rank-based methods compare who is larger.
+
+This vignette shows how to: 1) run **all-pairs rank tests**, 2) compute **probability-style effect sizes** with CIs, 3) decide whether groups are **practically equivalent**, and 4) **visualize** results.
+
+We’ll use small synthetic data so everything runs fast.
+
+```{r}
+library(rankcomp)
+library(ggplot2)  
+
+# toy data (three groups)
+A <- rnorm(15, 0.30, 1.0)
+B <- rnorm(16, 0.00, 1.0)
+C <- rnorm(14, 0.30, 1.0)
 x <- c(A,B,C)
 g <- factor(rep(c("A","B","C"), c(length(A),length(B),length(C))))
+```
 
-## 1) All-pairs (Wilcoxon + adjusted p-values)
+## 1) All-pairs rank tests (Wilcoxon + adjusted p-values)
+
+```{r}
 pairs_tab <- pairwise_rank_sum(x, g, method = "holm")
 pairs_tab
+```
 
-## 2) Interpretable effects (AUC)
+## Build a symmetric matrix of Holm-adjusted p-values
+
+```{r}
+lev <- levels(g)
+m <- matrix(NA_real_, nrow = length(lev), ncol = length(lev),
+dimnames = list(lev, lev))
+for (i in seq_len(nrow(pairs_tab))) {
+a <- pairs_tab$group1[i]; b <- pairs_tab$group2[i]
+m[a, b] <- m[b, a] <- pairs_tab$p_adj[i]
+}
+diag(m) <- 0
+```
+
+## Convert to long form without extra packages
+
+```{r}
+df_heat <- as.data.frame(as.table(m))
+names(df_heat) <- c("group1","group2","p_adj")
+
+ggplot(df_heat, aes(group1, group2, fill = p_adj)) +
+geom_tile(color = "white") +
+scale_fill_continuous(name = "Holm p-adj", limits = c(0,1)) +
+labs(title = "All-pairs adjusted p-values (Wilcoxon + Holm)",
+x = NULL, y = NULL) +
+coord_equal() +
+theme_minimal(base_size = 12)
+```
+
+## 2) Interpretable effects with CIs
+
+AUC (“probability of superiority”) answers: what’s the chance a random value from group i exceeds a random value from group j? Cliff’s delta is similar (−1 to 1). We’ll use AUC here.
+
+```{r}
 eff_tab <- np_effect_size(x, g, measure = "auc", ci = TRUE, nboot = 200, seed = 1)
 eff_tab
+```
 
-## 3) "Close enough?" via equivalence on AUC
+
+```{r effect-forest-fallback, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+eff_plot <- eff_tab
+eff_plot$pair <- paste(eff_plot$group1, "vs", eff_plot$group2)
+
+ggplot(eff_plot, aes(y = reorder(pair, effect), x = effect)) +
+  geom_vline(xintercept = 0.5, linetype = 2) +
+  geom_errorbar(aes(xmin = ci_low, xmax = ci_high), width = 0.2) +
+  geom_point(size = 2) +
+  xlim(0, 1) +
+  labs(title = "Pairwise AUC (probability of superiority)",
+       x = "AUC (0.5 = no difference)", y = NULL) +
+  theme_minimal(base_size = 12)
+```
+
+```
+
+## 3) “Close enough" via equivalence on the effect scale
+
+We test whether pairs are practically the same using a margin around 0.5 for AUC (here, ±0.05), i.e., a pair is called equivalent if its entire CI lies within (0.45, 0.55).
+
+```{r}
 eq_tab <- equivalence_np(x, g, delta = 0.05, measure = "auc",
-                         alternative = "equivalence", nboot = 200, seed = 1)
+alternative = "equivalence",
+nboot = 200, seed = 1)
 eq_tab
+```
+
+## References
+
+Steel (1960); Dwass (1960); Critchlow & Fligner (1991) — classic rank-based all-pairs tests.
+
+Hollander, Wolfe & Chicken (2014) — Nonparametric Statistical Methods.
+
+Vargha & Delaney (2000) — probability of superiority (AUC).
