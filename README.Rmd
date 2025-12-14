@@ -25,4 +25,8 @@ equivalence_np(x, g, delta = 0.05, measure = "auc",
                alternative = "equivalence", nboot = 200, seed = 1)
 
 ```
-
+## Documentation
+- Vignette: **Getting started with rankcomp** — see the *Vignettes* tab on the GitHub package page, or open in R via:
+```r
+vignette("rankcomp-intro", package = "rankcomp")
+```
