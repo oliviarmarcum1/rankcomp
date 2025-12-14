@@ -96,7 +96,6 @@ ggplot(eff_plot, aes(y = reorder(pair, effect), x = effect)) +
   theme_minimal(base_size = 12)
 ```
 
-```
 
 ## 3) “Close enough" via equivalence on the effect scale
 
